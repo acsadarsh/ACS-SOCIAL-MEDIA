@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACS Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            touch-action: pan-y; 
+        }
+
+        body {
+            background: #0b0e14;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Profile Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .title {
+            font-size: 1.4rem;
+            color: #00d4ff;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #d1d5db;
+            margin-top: 5px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        /* Slider Container */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            z-index: 10;
+        }
+        
+        /* Individual Slide Track */
+        .slider-box {
+            position: relative;
+            background: #1a1f29;
+            height: 65px;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid #334155;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.6);
+            cursor: pointer; /* Makes it clear it's clickable */
+            transition: transform 0.2s;
+        }
+
+        .slider-box:active {
+            transform: scale(0.98); /* Slight click effect */
+        }
+
+        /* Color Fill While Sliding */
+        .slider-fill {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.1), rgba(0, 212, 255, 0.5));
+            border-radius: 35px;
+            z-index: 0;
+        }
+
+        /* Name and Logo perfectly centered */
+        .slider-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: #ffffff;
+            z-index: 1;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slider-text i {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        /* The Arrow Button */
+        .slider-btn {
+            position: absolute;
+            left: 6px;
+            width: 53px;
+            height: 53px;
+            background: linear-gradient(135deg, #00d4ff, #0077ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.3rem;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+            pointer-events: none; /* Let the container handle clicks */
+        }
+
+        /* Unlocked Animation Classes */
+        .unlocked {
+            border-color: #00ff88;
+        }
+        .unlocked .slider-fill {
+            background: #00ff88 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        .unlocked .slider-btn {
+            background: #ffffff;
+            color: #00ff88;
+        }
+        .unlocked .slider-text {
+            color: #000000;
+            text-shadow: none;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding-top: 50px;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .footer b { color: #00d4ff; }
+        .footer p { margin-bottom: 5px; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="https://i.ibb.co/hFRHRQ97/image.jpg" class="logo" alt="ACS Logo">
+        <h1 class="title">ADARSH COMPUTER SERVICES & SOLVE</h1>
+        <p class="subtitle">ADARSH KUMAR CHANDRAVANSHI</p>
+    </div>
+
+    <div class="container" id="linkList"></div>
+
+    <div class="footer">
+        <p>Powered by <b>ACS</b></p>
+        <p>ICU MARK | 2026</p>
+    </div>
+
+    <script>
+        const links = [
+            { name: "OFFICIAL WEBSITE", url: "https://acsadarsh.github.io/Acs/", icon: "fas fa-globe", color: "#00d4ff" },
+            { name: "BUSINESS PROFILE", url: "https://share.google/dIa4xNdvLCFekrRfK", icon: "fab fa-google", color: "#4285F4" },
+            { name: "WHATSAPP CHAT", url: "https://wa.me/8252900810", icon: "fab fa-whatsapp", color: "#25D366" },
+            { name: "WHATSAPP CHANNEL", url: "https://whatsapp.com/channel/0029Vb72goSFSAt3aaSAp11y", icon: "fab fa-whatsapp", color: "#25D366" },
+            { name: "WHATSAPP GROUP", url: "https://chat.whatsapp.com/FaZ0gRbGMai4drrfQWCNUs?s=cl&p=a&ilr=1&amv=3", icon: "fab fa-whatsapp", color: "#25D366" },
+            { name: "INSTAGRAM", url: "https://www.instagram.com/acs.adarsh?igsh=cWprMzJxN3JucjR6", icon: "fab fa-instagram", color: "#E1306C" },
+            { name: "TELEGRAM", url: "https://t.me/adarsh24361", icon: "fab fa-telegram-plane", color: "#0088cc" },
+            { name: "LINKEDIN", url: "https://www.linkedin.com/in/adarsh-kumar-chandravanshi-562b75375", icon: "fab fa-linkedin", color: "#0A66C2" },
+            { name: "X (TWITTER)", url: "https://x.com/ACSadarsh", icon: "fab fa-x-twitter", color: "#ffffff" },
+            { name: "FACEBOOK", url: "https://www.facebook.com/share/194i8pcELu/", icon: "fab fa-facebook-f", color: "#1877F2" },
+            { name: "FREELANCER", url: "https://www.freelancer.com/u/Acs8055?sb=t", icon: "fas fa-paper-plane", color: "#29B2FE" },
+            { name: "FIVERR", url: "https://www.freelancer.com/u/Acs8055?sb=t", icon: "fas fa-bolt", color: "#1DBF73" },
+            { name: "JUST DIAL", url: "https://jsdl.in/RSL-YFF1781631683", icon: "fas fa-phone", color: "#FF7A00" },
+            { name: "EMAIL", url: "mailto:acs.adarsh.com@gmail.com", icon: "fas fa-envelope", color: "#EA4335" }
+        ];
+
+        const list = document.getElementById('linkList');
+
+        links.forEach(l => {
+            const box = document.createElement('div');
+            box.className = 'slider-box';
+            box.setAttribute('data-url', l.url);
+            box.innerHTML = `
+                <div class="slider-fill"></div>
+                <div class="slider-text">
+                    <i class="${l.icon}" style="color: ${l.color};"></i> 
+                    ${l.name}
+                </div>
+                <div class="slider-btn"><i class="fas fa-arrow-right"></i></div>
+            `;
+            list.appendChild(box);
+        });
+
+        const sliders = document.querySelectorAll('.slider-box');
+
+        sliders.forEach(slider => {
+            const btn = slider.querySelector('.slider-btn');
+            const fill = slider.querySelector('.slider-fill');
+            const btnIcon = btn.querySelector('i');
+            const url = slider.getAttribute('data-url');
+            
+            let isDown = false;
+            let didDrag = false;
+            let startX;
+            let moveX = 0;
+
+            // Reusable function to execute the final open animation
+            const triggerOpen = () => {
+                slider.classList.add('unlocked');
+                btnIcon.className = "fas fa-check"; 
+
+                setTimeout(() => {
+                    if(url.startsWith('mailto:')) {
+                        window.location.href = url;
+                    } else {
+                        window.open(url, '_blank');
+                    }
+
+                    setTimeout(() => {
+                        slider.classList.remove('unlocked');
+                        btnIcon.className = "fas fa-arrow-right";
+                        btn.style.transition = 'none';
+                        fill.style.transition = 'none';
+                        btn.style.left = `6px`;
+                        fill.style.width = '0px';
+                        moveX = 0;
+                    }, 600);
+                }, 400);
+            };
+
+            // Drag Functionality
+            const startSlide = (e) => {
+                if(slider.classList.contains('unlocked')) return;
+                isDown = true;
+                didDrag = false;
+                startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                btn.style.transition = 'none';
+                fill.style.transition = 'none';
+            };
+
+            const moveSlide = (e) => {
+                if (!isDown) return;
+                const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                moveX = currentX - startX;
+                
+                if (Math.abs(moveX) > 5) didDrag = true; // Mark as dragged if moved slightly
+                const limit = slider.offsetWidth - btn.offsetWidth - 12;
+
+                if (moveX < 0) moveX = 0;
+                if (moveX > limit) moveX = limit;
+
+                btn.style.left = `${moveX + 6}px`;
+                fill.style.width = `${moveX + btn.offsetWidth}px`;
+            };
+
+            const endSlide = () => {
+                if (!isDown) return;
+                isDown = false;
+                
+                if(!didDrag) return; // If it was just a tap, let the click listener handle it
+
+                const limit = slider.offsetWidth - btn.offsetWidth - 12;
+                btn.style.transition = 'left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                fill.style.transition = 'width 0.4s ease';
+
+                if (moveX > limit * 0.8) {
+                    btn.style.left = `${limit + 6}px`;
+                    fill.style.width = '100%';
+                    triggerOpen();
+                } else {
+                    btn.style.left = `6px`;
+                    fill.style.width = '0px';
+                    moveX = 0;
+                }
+            };
+
+            // Touch & Mouse Events
+            slider.addEventListener('touchstart', startSlide, {passive: true});
+            window.addEventListener('touchmove', moveSlide, {passive: true});
+            window.addEventListener('touchend', endSlide);
+
+            slider.addEventListener('mousedown', startSlide);
+            window.addEventListener('mousemove', moveSlide);
+            window.addEventListener('mouseup', endSlide);
+
+            // AUTO SLIDE ON CLICK / TAP
+            slider.addEventListener('click', (e) => {
+                if (didDrag || slider.classList.contains('unlocked')) return;
+                
+                const limit = slider.offsetWidth - btn.offsetWidth - 12;
+                
+                // Add smooth auto-slide animation
+                btn.style.transition = 'left 0.5s ease-in-out';
+                fill.style.transition = 'width 0.5s ease-in-out';
+                
+                btn.style.left = `${limit + 6}px`;
+                fill.style.width = '100%';
+                
+                // Wait for the slide animation to finish, then unlock
+                setTimeout(() => {
+                    triggerOpen();
+                }, 500); 
+            });
+        });
+    </script>
+</body>
+</html>
