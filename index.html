@@ -203,7 +203,7 @@
             { name: "X (TWITTER)", url: "https://x.com/ACSadarsh", icon: "fab fa-x-twitter", color: "#ffffff" },
             { name: "FACEBOOK", url: "https://www.facebook.com/share/194i8pcELu/", icon: "fab fa-facebook-f", color: "#1877F2" },
             { name: "FREELANCER", url: "https://www.freelancer.com/u/Acs8055?sb=t", icon: "fas fa-paper-plane", color: "#29B2FE" },
-            { name: "FIVERR", url: "https://www.freelancer.com/u/Acs8055?sb=t", icon: "fas fa-bolt", color: "#1DBF73" },
+            { name: "FIVERR", url: "https://www.fiverr.com/", icon: "fas fa-bolt", color: "#1DBF73" },
             { name: "JUST DIAL", url: "https://jsdl.in/RSL-YFF1781631683", icon: "fas fa-phone", color: "#FF7A00" },
             { name: "EMAIL", url: "mailto:acs.adarsh.com@gmail.com", icon: "fas fa-envelope", color: "#EA4335" },
             { name: "EXPLURGER", url: "https://explurger.com/pf/lsu8kqrvme79eojt0", icon: "fas fa-globe", color: "#E1306C" },
@@ -212,6 +212,7 @@
 
         const list = document.getElementById('linkList');
 
+        // Sabhi links ke liye slider box banana
         links.forEach(l => {
             const box = document.createElement('div');
             box.className = 'slider-box';
@@ -229,6 +230,7 @@
 
         const sliders = document.querySelectorAll('.slider-box');
 
+        // Sliding aur Clicking logic
         sliders.forEach(slider => {
             const btn = slider.querySelector('.slider-btn');
             const fill = slider.querySelector('.slider-fill');
@@ -251,12 +253,13 @@
                         window.open(url, '_blank');
                     }
 
+                    // Wapas normal state mein lana
                     setTimeout(() => {
                         slider.classList.remove('unlocked');
                         btnIcon.className = "fas fa-arrow-right";
                         btn.style.transition = 'none';
                         fill.style.transition = 'none';
-                        btn.style.left = \`6px\`;
+                        btn.style.left = '6px';
                         fill.style.width = '0px';
                         moveX = 0;
                     }, 600);
@@ -266,10 +269,15 @@
             const startSlide = (e) => {
                 if(slider.classList.contains('unlocked')) return;
                 isDown = true;
-                didDrag = false;
+                didDrag = false; // Drag check reset
                 startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
                 btn.style.transition = 'none';
                 fill.style.transition = 'none';
+                
+                window.addEventListener('mousemove', moveSlide);
+                window.addEventListener('mouseup', endSlide);
+                window.addEventListener('touchmove', moveSlide, {passive: true});
+                window.addEventListener('touchend', endSlide);
             };
 
             const moveSlide = (e) => {
@@ -277,45 +285,48 @@
                 const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
                 moveX = currentX - startX;
                 
-                if (Math.abs(moveX) > 5) didDrag = true; 
+                if (Math.abs(moveX) > 5) didDrag = true; // Agar thoda sa bhi hila, toh drag maan liya jayega
                 const limit = slider.offsetWidth - btn.offsetWidth - 12;
 
                 if (moveX < 0) moveX = 0;
                 if (moveX > limit) moveX = limit;
 
-                btn.style.left = \`\${moveX + 6}px\`;
-                fill.style.width = \`\${moveX + btn.offsetWidth}px\`;
+                // Extra backslash hata diya gaya hai
+                btn.style.left = `${moveX + 6}px`;
+                fill.style.width = `${moveX + btn.offsetWidth}px`;
             };
 
             const endSlide = () => {
                 if (!isDown) return;
                 isDown = false;
                 
-                if(!didDrag) return; 
+                window.removeEventListener('mousemove', moveSlide);
+                window.removeEventListener('mouseup', endSlide);
+                window.removeEventListener('touchmove', moveSlide);
+                window.removeEventListener('touchend', endSlide);
+                
+                if(!didDrag) return; // Agar drag nahi hua (sirf click hua), toh yahan ruk jayega aur click event chalega
 
                 const limit = slider.offsetWidth - btn.offsetWidth - 12;
                 btn.style.transition = 'left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                 fill.style.transition = 'width 0.4s ease';
 
                 if (moveX > limit * 0.8) {
-                    btn.style.left = \`\${limit + 6}px\`;
+                    btn.style.left = `${limit + 6}px`;
                     fill.style.width = '100%';
                     triggerOpen();
                 } else {
-                    btn.style.left = \`6px\`;
+                    btn.style.left = '6px';
                     fill.style.width = '0px';
                     moveX = 0;
                 }
             };
 
-            slider.addEventListener('touchstart', startSlide, {passive: true});
-            window.addEventListener('touchmove', moveSlide, {passive: true});
-            window.addEventListener('touchend', endSlide);
-
+            // Slide Event Listeners
             slider.addEventListener('mousedown', startSlide);
-            window.addEventListener('mousemove', moveSlide);
-            window.addEventListener('mouseup', endSlide);
-
+            slider.addEventListener('touchstart', startSlide, {passive: true});
+            
+            // Automatic Click to Slide (Aapka purana system wapas add kar diya gaya)
             slider.addEventListener('click', (e) => {
                 if (didDrag || slider.classList.contains('unlocked')) return;
                 
@@ -324,9 +335,11 @@
                 btn.style.transition = 'left 0.5s ease-in-out';
                 fill.style.transition = 'width 0.5s ease-in-out';
                 
-                btn.style.left = \`\${limit + 6}px\`;
+                // Animation ke liye set karna
+                btn.style.left = `${limit + 6}px`;
                 fill.style.width = '100%';
                 
+                // 500ms (0.5s) ke baad link kholna
                 setTimeout(() => {
                     triggerOpen();
                 }, 500); 
